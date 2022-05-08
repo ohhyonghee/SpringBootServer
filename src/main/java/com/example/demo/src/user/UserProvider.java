@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.USERS_EMPTY_USER_ID;
 
 //Provider : Read의 비즈니스 로직 처리
 @Service
@@ -34,6 +35,9 @@ public class UserProvider {
 
     public GetUserFeedRes retrieveUserFeed(int userIdxByJwt, int userIdx) throws BaseException{
         Boolean isMyFeed=true;
+        if(checkUserExist(userIdx)==0){
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
         try{
             if(userIdxByJwt!=userIdx)
                 isMyFeed=false;
@@ -48,10 +52,10 @@ public class UserProvider {
                     }
 
 
-    public GetUserFeedRes getUserByIdx(int userIdx) throws BaseException{
+    public GetUserRes getUserByIdx(int userIdx) throws BaseException{
         try{
-            GetUserFeedRes getUserFeedRes = userDao.getUserByIdx(userIdx);
-            return getUserFeedRes;
+            GetUserRes getUserRes = userDao.getUserByIdx(userIdx);
+            return getUserRes;
         }
         catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
@@ -66,6 +70,16 @@ public class UserProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public int checkUserExist(int userIdx) throws BaseException{
+        try{
+            return userDao.checkUserExist(userIdx);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
 
 
 

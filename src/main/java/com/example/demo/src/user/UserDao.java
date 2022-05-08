@@ -62,7 +62,6 @@ public class UserDao {
         int selectUserPostParam=userIdx;  // ????
         return this.jdbcTemplate.query(selectUserPostQuery,    // selectUserInfo에서 반환하는 값이 List이면 query  아니면 queryForObject
                 (rs,rowNum) -> new GetUserPostRes(
-                        true,
                         rs.getInt("postIdx"),
                         rs.getString("postImgUrl")
                 ),selectUserPostParam);
@@ -112,11 +111,11 @@ public class UserDao {
 
     // userFeed 조회할떄 userIdx 가 유효한 Idx 인지 확인하는 과정
     public int checkUserExist(int userIdx){
-        String checkEmailQuery = "select exists(select email from User where email = ?)";
-        String checkEmailParams = email;
-        return this.jdbcTemplate.queryForObject(checkEmailQuery,
+        String checkUserExistQuery = "select exists(select userIdx from User where userIdx = ?)";
+        int checkUserExistParam = userIdx;
+        return this.jdbcTemplate.queryForObject(checkUserExistQuery,
                 int.class,
-                checkEmailParams);
+                checkUserExistParam);
     }
 
 

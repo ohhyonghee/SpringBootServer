@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class GetUserPostRes {
-    private boolean _isMyFeed;
+
     private int postIdx;
     private String postImgUrl;
 

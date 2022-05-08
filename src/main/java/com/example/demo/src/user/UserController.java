@@ -59,8 +59,8 @@ public class UserController {
     public BaseResponse<GetUserFeedRes> getUserByIdx(@PathVariable("userIdx")int userIdx) {
         try{
 
-            GetUserFeedRes getUserFeedRes = userProvider.getUserByIdx(userIdx);
-            return new BaseResponse<>(getUserFeedRes);
+            GetUserRes getUserRes = userProvider.getUserByIdx(userIdx);
+            return new BaseResponse<>(getUserRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }

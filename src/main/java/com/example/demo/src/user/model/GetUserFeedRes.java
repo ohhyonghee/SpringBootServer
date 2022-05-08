@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class GetUserFeedRes {
-
+    private boolean _isMyFeed;
     private GetUserInfoRes getUserInfoRes;
     private List<GetUserPostRes> getUserPostRes;
 
