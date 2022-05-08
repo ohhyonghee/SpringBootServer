@@ -5,6 +5,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.src.user.model.GetUserFeedRes;
 import com.example.demo.src.user.model.GetUserInfoRes;
 import com.example.demo.src.user.model.GetUserPostRes;
+import com.example.demo.src.user.model.GetUserRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
