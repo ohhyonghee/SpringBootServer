@@ -20,7 +20,7 @@ public class UserDao {
     }
 
     public GetUserInfoRes selectUserInfo(int userIdx){
-        String getUserQuery = "SELECT u.userIdx as userIdx,\n" +
+        String selectUserInfoQuery = "SELECT u.userIdx as userIdx,\n" +
                 "            u.nickName as nickName,\n" +
                 "            u.name as name,\n" +
                 "            u.profileImgUrl as profileImgUrl,\n" +
@@ -35,7 +35,7 @@ public class UserDao {
                 "            left join (select followeeIdx, count(followIdx) as followingCount from Follow WHERE status = 1 group by followIdx) f on f.followeeIdx = u.userIdx\n" +
                 "        WHERE u.userIdx = ? and u.status = 1\n" ;
         int selectUserInfoParam=userIdx;  // ????
-        return this.jdbcTemplate.queryForObject(getUserQuery,    // selectUserInfo에서 반환하는 값이 List이면 query  아니면 queryForObject
+        return this.jdbcTemplate.queryForObject(selectUserInfoQuery,    // selectUserInfo에서 반환하는 값이 List이면 query  아니면 queryForObject
                 (rs,rowNum) -> new GetUserInfoRes(
                         rs.getString("nickName"),
                         rs.getString("name"),
@@ -48,11 +48,31 @@ public class UserDao {
                 ),selectUserInfoParam);
     }
 
-    public GetUserFeedRes getUserByEmail(String email){
+    public List<GetUserPostRes> selectUserPost(int userIdx){
+        String selectUserPostQuery =
+                        "        SELECT p.postIdx as postIdx,\n" +
+                        "            pi.imgUrl as postImgUrl\n" +
+                        "        FROM Post as p\n" +
+                        "            join PostImgUrl as pi on pi.postIdx = p.postIdx and pi.status = 1\n" +
+                        "            join User as u on u.userIdx = p.userIdx\n" +
+                        "        WHERE p.status = 1 and u.userIdx = ?\n" +
+                        "        group by p.postIdx\n" +
+                        //"        HAVING min(pi.postImgUrlIdx)\n" +   ??????
+                        "        order by p.postIdx; " ;
+        int selectUserPostParam=userIdx;  // ????
+        return this.jdbcTemplate.query(selectUserPostQuery,    // selectUserInfo에서 반환하는 값이 List이면 query  아니면 queryForObject
+                (rs,rowNum) -> new GetUserPostRes(
+                        true,
+                        rs.getInt("postIdx"),
+                        rs.getString("postImgUrl")
+                ),selectUserPostParam);
+    }
+
+    public GetUserRes getUserByEmail(String email){
         String getUserByEmailQuery = "select userIdx,name,nickName,email from User where email=?";
         String getUserByEmailParams = email;
         return this.jdbcTemplate.queryForObject(getUserByEmailQuery,
-                (rs, rowNum) -> new GetUserFeedRes(
+                (rs, rowNum) -> new GetUserRes(
                         rs.getInt("userIdx"),
                         rs.getString("name"),
                         rs.getString("nickName"),
@@ -61,11 +81,11 @@ public class UserDao {
     }
 
 
-    public GetUserFeedRes getUserByIdx(int userIdx){
+    public GetUserRes getUserByIdx(int userIdx){
         String getUserByIdxQuery = "select userIdx,name,nickName,email from User where userIdx=?";
         int getUserByIdxParams = userIdx;
         return this.jdbcTemplate.queryForObject(getUserByIdxQuery,
-                (rs, rowNum) -> new GetUserFeedRes(
+                (rs, rowNum) -> new GetUserRes(
                         rs.getInt("userIdx"),
                         rs.getString("name"),
                         rs.getString("nickName"),
@@ -88,8 +108,17 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(checkEmailQuery,
                 int.class,
                 checkEmailParams);
-
     }
+
+    // userFeed 조회할떄 userIdx 가 유효한 Idx 인지 확인하는 과정
+    public int checkUserExist(int userIdx){
+        String checkEmailQuery = "select exists(select email from User where email = ?)";
+        String checkEmailParams = email;
+        return this.jdbcTemplate.queryForObject(checkEmailQuery,
+                int.class,
+                checkEmailParams);
+    }
+
 
     public int modifyUserName(PatchUserReq patchUserReq){
         String modifyUserNameQuery = "update User set nickName = ? where userIdx = ? ";

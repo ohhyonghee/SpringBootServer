@@ -39,7 +39,7 @@ public class UserProvider {
                 isMyFeed=false;
             GetUserInfoRes getUserInfoRes = userDao.selectUserInfo(userIdx);
             List<GetUserPostRes> getUserPostRes = userDao.selectUserPost(userIdx);
-            GetUserFeedRes getUserFeedRes = GetUserFeedRes(isMyFeed,getUserInfoRes,getUserPostRes);
+            GetUserFeedRes getUserFeedRes = new GetUserFeedRes(isMyFeed,getUserInfoRes,getUserPostRes);
             return getUserFeedRes;
         }
         catch (Exception exception) {
