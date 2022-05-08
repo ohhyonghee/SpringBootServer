@@ -2,7 +2,7 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.config.BaseException;
-import com.example.demo.src.user.model.GetUserRes;
+import com.example.demo.src.user.model.GetUserFeedRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +28,10 @@ public class UserProvider {
     }
 
 
-    public GetUserRes getUsersByEmail(String email) throws BaseException{
+    public GetUserFeedRes getUserByEmail(String email) throws BaseException{
         try{
-            GetUserRes getUsersRes = userDao.getUsersByEmail(email);
-            return getUsersRes;
+            GetUserFeedRes getUserFeedRes = userDao.getUserByEmail(email);
+            return getUserFeedRes;
         }
         catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
@@ -39,10 +39,10 @@ public class UserProvider {
                     }
 
 
-    public GetUserRes getUsersByIdx(int userIdx) throws BaseException{
+    public GetUserFeedRes getUserByIdx(int userIdx) throws BaseException{
         try{
-            GetUserRes getUsersRes = userDao.getUsersByIdx(userIdx);
-            return getUsersRes;
+            GetUserFeedRes getUserFeedRes = userDao.getUserByIdx(userIdx);
+            return getUserFeedRes;
         }
         catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
