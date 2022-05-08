@@ -44,7 +44,7 @@ public class UserController {
      */
     //Query String
     @ResponseBody
-    @GetMapping("") // (GET) 127.0.0.1:9000/users
+    @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/users pathvariable 에 받아줬으면 uri 에도 명시해주자
     public BaseResponse<GetUserFeedRes> getUserFeed(@PathVariable("userIdx")int userIdx) {
         try{
             GetUserFeedRes getUserFeedRes = userProvider.retrieveUserFeed(userIdx,userIdx);
@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/users/:userIdx
+    @GetMapping("/{userIdx}/X") // (GET) 127.0.0.1:9000/users/:userIdx uri가 겹치면 안된다
     public BaseResponse<GetUserRes> getUserByIdx(@PathVariable("userIdx")int userIdx) {
         try{
 
