@@ -5,7 +5,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
 import com.example.demo.src.post.model.*;
 import com.example.demo.src.user.model.PatchUserReq;
-import com.example.demo.utils.AES128;
+//import com.example.demo.utils.AES128;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public class PostService {
         this.jwtService = jwtService;
 
     }
-
+/**
     //게시글 작성
     public PostPostRes createPost(int userIdx, PostPostReq postPostReq) throws BaseException {
 
@@ -47,7 +47,7 @@ public class PostService {
         }
     }
 
-
+/
     // 게시물 수정
     public void modifyPost(int userIdx,int postIdx, PatchPostReq patchPostReq) throws BaseException {
         if(postProvider.checkUserExist(userIdx) ==0){
@@ -91,4 +91,5 @@ public class PostService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+ **/
 }

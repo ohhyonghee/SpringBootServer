@@ -14,11 +14,11 @@ import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.*;
-import static com.example.demo.utils.ValidationRegex.isRegexNickName;
+//import static com.example.demo.utils.ValidationRegex.isRegexNickName;
 
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/post")
 public class PostController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -43,18 +43,17 @@ public class PostController {
 
     @ResponseBody
     @GetMapping("")
-    public BaseResponse<List<GetPostRes>> getPost(){
+    public BaseResponse<List<GetPostRes>> getPost(@RequestParam int userIdx){
         try{
-            //jwt에서 idx 추출.
-            int userIdxByJwt = jwtService.getUserIdx();
-            List<GetPostsRes> getPosts=postProvider.retrievePosts(userIdxByJwt);
 
-            return new BaseResponse<>(getPosts);
+            List<GetPostRes> getPost=postProvider.retrievePost(userIdx);
+            return new BaseResponse<>(getPost);
         } catch (BaseException exception){
+            System.out.println(exception);
             return new BaseResponse<>(exception.getStatus());
         }
     }
-
+/**
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostPostRes> createPost(@RequestBody PostPostReq postPostReq) {
@@ -115,5 +114,5 @@ public class PostController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-
+**/
 }

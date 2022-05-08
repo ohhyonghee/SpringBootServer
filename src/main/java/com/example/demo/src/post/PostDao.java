@@ -35,7 +35,7 @@ public class PostDao {
                 checkUserExistParams);
 
     }
-
+/**
     // 게시글 확인
     public int checkPostExist(int postIdx){
         String checkPostExistQuery = "select exists(select postIdx from Post where postIdx = ?)";
@@ -55,10 +55,10 @@ public class PostDao {
                 checkEmailParams);
 
     }
-
+**/
     // 게시글 리스트 조회
-    public List<GetPostsRes> selectPosts(int userIdx){
-        String selectUserPostsQuery = "\n" +
+    public List<GetPostRes> selectPost(int userIdx){
+        String selectUserPostQuery = "\n" +
                 "        SELECT p.postIdx as postIdx,\n" +
                 "            u.userIdx as userIdx,\n" +
                 "            u.nickName as nickName,\n" +
@@ -77,18 +77,18 @@ public class PostDao {
                 "                    then concat(timestampdiff(day, p.updatedAt, current_timestamp), '일 전')\n" +
                 "                else timestampdiff(year , p.updatedAt, current_timestamp)\n" +
                 "            end as updatedAt,\n" +
-                "            IF(pl.status = 'ACTIVE', 'Y', 'N') as likeOrNot\n" +
+                "            IF(pl.status = 1, 'Y', 'N') as likeOrNot\n" +
                 "        FROM Post as p\n" +
                 "            join User as u on u.userIdx = p.userIdx\n" +
-                "            left join (select postIdx, userIdx, count(postLikeidx) as postLikeCount from PostLike WHERE status = 'ACTIVE' group by postIdx) plc on plc.postIdx = p.postIdx\n" +
-                "            left join (select postIdx, count(commentIdx) as commentCount from Comment WHERE status = 'ACTIVE' group by postIdx) c on c.postIdx = p.postIdx\n" +
-                "            left join Follow as f on f.followeeIdx = p.userIdx and f.status = 'ACTIVE'\n" +
-                "            left join PostLike as pl on pl.userIdx = f.followerIdx and pl.postIdx = p.postIdx\n" +
-                "        WHERE f.followerIdx = ? and p.status = 'ACTIVE'\n" +
+                "            left join (select postIdx, userIdx, count(postReactionIdx) as postLikeCount from PostReaction WHERE status = 1 group by postIdx) plc on plc.postIdx = p.postIdx\n" +
+                "            left join (select postIdx, count(commentIdx) as commentCount from Comment WHERE status = 1 group by postIdx) c on c.postIdx = p.postIdx\n" +
+                "            left join Follow as f on f.followeeIdx = p.userIdx and f.status = 1\n" +
+                "            left join PostReaction as pl on pl.userIdx = f.followerIdx and pl.postIdx = p.postIdx\n" +
+                "        WHERE f.followerIdx = ? and p.status = 1\n" +
                 "        group by p.postIdx;\n" ;
-        int selectUserPostsParam = userIdx;
-        return this.jdbcTemplate.query(selectUserPostsQuery,
-                (rs,rowNum) -> new GetPostsRes(
+        int selectUserPostParam = userIdx;
+        return this.jdbcTemplate.query(selectUserPostQuery,
+                (rs,rowNum) -> new GetPostRes(
                         rs.getInt("postIdx"),
                         rs.getInt("userIdx"),
                         rs.getString("nickName"),
@@ -103,16 +103,16 @@ public class PostDao {
                                          "            pi.imgUrl\n" +
                                          "        FROM PostImgUrl as pi\n" +
                                          "            join Post as p on p.postIdx = pi.postIdx\n" +
-                                         "        WHERE pi.status = 'ACTIVE' and p.postIdx = ?;\n",
+                                         "        WHERE pi.status = 1 and p.postIdx = ?;\n",
                         (rk,rownum) -> new GetPostImgRes(
                                 rk.getInt("postImgUrlIdx"),
                                 rk.getString("imgUrl"))
-                                 ,rs.getInt("postIdx"))),selectUserPostsParam);
+                                 ,rs.getInt("postIdx"))),selectUserPostParam);
 
 
 
     }
-
+/**
     // 회원 확인
     public String checkUserStatus(String email){
         String checkUserStatusQuery = "select status from User where email = ? ";
@@ -177,4 +177,5 @@ public class PostDao {
 
         return this.jdbcTemplate.update(deleteUserQuery,deleteUserParams);
     }
+ **/
 }

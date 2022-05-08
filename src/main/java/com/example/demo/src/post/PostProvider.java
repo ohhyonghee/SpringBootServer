@@ -3,7 +3,8 @@ package com.example.demo.src.post;
 
 import com.example.demo.config.BaseException;
 
-import com.example.demo.src.post.model.GetPostsRes;
+import com.example.demo.src.post.model.GetPostRes;
+import com.example.demo.src.post.model.GetPostRes;
 import com.example.demo.src.post.*;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
@@ -38,10 +39,11 @@ public class PostProvider {
         try{
             return postDao.checkUserExist(userIdx);
         } catch (Exception exception){
+            System.out.println(exception);
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+/**
     // 게시물 확인
     public int checkPostExist(int postIdx) throws BaseException{
         try{
@@ -77,9 +79,9 @@ public class PostProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+**/
     //게시물 리스트 조회
-    public List<GetPostsRes> retrievePosts(int userIdx) throws BaseException {
+    public List<GetPostRes> retrievePost(int userIdx) throws BaseException {
 
         if(checkUserExist(userIdx) ==0){
             throw new BaseException(USERS_EMPTY_USER_ID);
@@ -87,10 +89,11 @@ public class PostProvider {
 
         try{
 
-            List<GetPostsRes> getPosts = postDao.selectPosts(userIdx);
+            List<GetPostRes> getPost = postDao.selectPost(userIdx);
 
-            return getPosts;
+            return getPost;
         } catch(Exception exception){
+            System.out.println(exception);
            throw new BaseException(DATABASE_ERROR);
         }
     }
