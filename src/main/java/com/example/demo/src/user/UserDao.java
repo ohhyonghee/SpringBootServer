@@ -49,7 +49,7 @@ public class UserDao {
     }
 
     public List<GetUserPostRes> selectUserPost(int userIdx){
-        String selectUserPostQuery =
+        String selectUserPostQuery ="\n"+
                         "        SELECT p.postIdx as postIdx,\n" +
                         "            pi.imgUrl as postImgUrl\n" +
                         "        FROM Post as p\n" +
