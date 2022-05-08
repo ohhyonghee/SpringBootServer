@@ -1,10 +1,7 @@
 package com.example.demo.src.user;
 
 
-import com.example.demo.src.user.model.DeleteUserReq;
-import com.example.demo.src.user.model.GetUserFeedRes;
-import com.example.demo.src.user.model.PatchUserReq;
-import com.example.demo.src.user.model.PostUserReq;
+import com.example.demo.src.user.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,15 +19,33 @@ public class UserDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public List<GetUserFeedRes> getUsers(){
-        String getUserQuery = "select userIdx,name,nickName,email from User";
-        return this.jdbcTemplate.query(getUserQuery,
-                (rs,rowNum) -> new GetUserFeedRes(
-                        rs.getInt("userIdx"),
-                        rs.getString("name"),
+    public GetUserInfoRes selectUserInfo(int userIdx){
+        String getUserQuery = "SELECT u.userIdx as userIdx,\n" +
+                "            u.nickName as nickName,\n" +
+                "            u.name as name,\n" +
+                "            u.profileImgUrl as profileImgUrl,\n" +
+                "            u.website as website,\n" +
+                "            u.introduction as introduction,\n" +
+                "            IF(postCount is null, 0, postCount) as postCount,\n" +
+                "            IF(followerCount is null, 0, followerCount) as followerCount,\n" +
+                "            If(followingCount is null, 0, followingCount) as followingCount,\n" +
+                "        FROM User as u\n" +
+                "            left join (select userIdx, count(postIdx) as postCount from Post WHERE status = 1 group by userIdx) p on p.userIdx = u.userIdx\n" +
+                "            left join (select followerIdx, count(followIdx) as followerCount from Follow WHERE status = 1 group by followIdx) fc on fc.followerIdx = u.userIdx\n" +
+                "            left join (select followeeIdx, count(followIdx) as followingCount from Follow WHERE status = 1 group by followIdx) f on f.followeeIdx = u.userIdx\n" +
+                "        WHERE u.userIdx = ? and u.status = 1\n" ;
+        int selectUserInfoParam=userIdx;  // ????
+        return this.jdbcTemplate.queryForObject(getUserQuery,    // selectUserInfo에서 반환하는 값이 List이면 query  아니면 queryForObject
+                (rs,rowNum) -> new GetUserInfoRes(
                         rs.getString("nickName"),
-                        rs.getString("email")
-                ));
+                        rs.getString("name"),
+                        rs.getString("profileImgUrl"),
+                        rs.getString("webSite"),
+                        rs.getString("introduction"),
+                        rs.getInt("followerCount"),
+                        rs.getInt("followingCount"),
+                        rs.getInt("postCount")
+                ),selectUserInfoParam);
     }
 
     public GetUserFeedRes getUserByEmail(String email){
