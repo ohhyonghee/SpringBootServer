@@ -28,7 +28,7 @@ public class UserDao {
                 "            u.introduction as introduction,\n" +
                 "            IF(postCount is null, 0, postCount) as postCount,\n" +
                 "            IF(followerCount is null, 0, followerCount) as followerCount,\n" +
-                "            If(followingCount is null, 0, followingCount) as followingCount,\n" +
+                "            If(followingCount is null, 0, followingCount) as followingCount\n" +
                 "        FROM User as u\n" +
                 "            left join (select userIdx, count(postIdx) as postCount from Post WHERE status = 1 group by userIdx) p on p.userIdx = u.userIdx\n" +
                 "            left join (select followerIdx, count(followIdx) as followerCount from Follow WHERE status = 1 group by followIdx) fc on fc.followerIdx = u.userIdx\n" +
