@@ -88,6 +88,7 @@ public class PostController {
 
     @ResponseBody
     @PatchMapping("/{postIdx}/status") //Patch Mapping , pathVariable로 postIdx를 받아줌 아래에 함수의 매개변수로 pathVariable 사용가능 , 같은 Patch 이므로 pathvariable로 하나 더 받아줌
+    // {} 의값은 pathvariable 즉 매개변수로, 직접 넣어줘야하고,  pachmapping 만 하고있는 status는 uri에만 넣어주면 된다.
     public BaseResponse<String> deletePost(@PathVariable ("postIdx") int postIdx){//postidx를 패스배리어블로 받고 그것을 postIdx에 넣음
         //데이터는 json 형태롤 보내야함..
         try{
