@@ -46,14 +46,6 @@ public class PostService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
-
-
-
-
-
-
-
     public void modifyPost(int userIdx,int postIdx, PatchPostReq patchPostReq) throws BaseException {
         if(postProvider.checkUserExist(userIdx) ==0){  //controller에서 생성한 객체의 메소드를 사용 먼저, 유저가 있는지  check
             throw new BaseException(USERS_EMPTY_USER_ID);
@@ -74,8 +66,6 @@ public class PostService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
-
     public void deletePost(int postIdx) throws BaseException {
         if(postProvider.checkPostExist(postIdx) ==0){    //validation 처리. 의미적 validation도 provider을 통해서 처리해야한다
             throw new BaseException(POSTS_EMPTY_POST_ID);

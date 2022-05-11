@@ -36,29 +36,6 @@ public class PostDao {
                 int.class,
                 checkPostExistParams);
     }
-
-
-/**
-    // 게시글 확인
-    public int checkPostExist(int postIdx){
-        String checkPostExistQuery = "select exists(select postIdx from Post where postIdx = ?)";
-        int checkPostExistParams = postIdx;
-        return this.jdbcTemplate.queryForObject(checkPostExistQuery,
-                int.class,
-                checkPostExistParams);
-
-    }
-
-    // 이메일 확인
-    public int checkEmailExist(String email){
-        String checkEmailQuery = "select exists(select email from User where email = ?)";
-        String checkEmailParams = email;
-        return this.jdbcTemplate.queryForObject(checkEmailQuery,
-                int.class,
-                checkEmailParams);
-
-    }
-**/
     // 게시글 리스트 조회
     public List<GetPostRes> selectPost(int userIdx){
         String selectUserPostQuery = "\n" +
@@ -111,9 +88,6 @@ public class PostDao {
                                 rk.getInt("postImgUrlIdx"),
                                 rk.getString("imgUrl"))
                                  ,rs.getInt("postIdx"))),selectUserPostParam);
-
-
-
     }
     public int insertPost(int userIdx, String content){
         String insertPostQuery = "INSERT INTO Post(userIdx,content) VALUE(?,?)";  //쿼리문 공부하기
@@ -151,8 +125,6 @@ public class PostDao {
     }
 
 
-
-
 /**
     // 회원 확인
     public String checkUserStatus(String email){
@@ -161,6 +133,24 @@ public class PostDao {
         return this.jdbcTemplate.queryForObject(checkUserStatusQuery,
                 String.class,
                 checkUserStatusParams);
+
+    }
+    // 게시글 확인
+    public int checkPostExist(int postIdx){
+        String checkPostExistQuery = "select exists(select postIdx from Post where postIdx = ?)";
+        int checkPostExistParams = postIdx;
+        return this.jdbcTemplate.queryForObject(checkPostExistQuery,
+                int.class,
+                checkPostExistParams);
+
+    }
+    // 이메일 확인
+    public int checkEmailExist(String email){
+        String checkEmailQuery = "select exists(select email from User where email = ?)";
+        String checkEmailParams = email;
+        return this.jdbcTemplate.queryForObject(checkEmailQuery,
+                int.class,
+                checkEmailParams);
 
     }
 

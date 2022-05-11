@@ -52,43 +52,6 @@ public class PostProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-/**
-    // 게시물 확인
-    public int checkPostExist(int postIdx) throws BaseException{
-        try{
-            return postDao.checkPostExist(postIdx);
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
-
-    // 유저의 게시물인지 확인
-    public int checkUserPostExist(int userIdx,int postIdx) throws BaseException{
-        try{
-            return postDao.checkUserPostExist(userIdx,postIdx);
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
-
-    // 이메일 확인
-    public int checkEmailExist(String email) throws BaseException{
-        try{
-            return postDao.checkEmailExist(email);
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
-
-    // 이메일 확인
-    public String checkUserStatus(String email) throws BaseException{
-        try{
-            return postDao.checkUserStatus(email);
-        } catch (Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
-**/
     //게시물 리스트 조회
     public List<GetPostRes> retrievePost(int userIdx) throws BaseException {
 
@@ -106,6 +69,44 @@ public class PostProvider {
            throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    /**
+     // 게시물 확인
+     public int checkPostExist(int postIdx) throws BaseException{
+     try{
+     return postDao.checkPostExist(postIdx);
+     } catch (Exception exception){
+     throw new BaseException(DATABASE_ERROR);
+     }
+     }
+
+     // 유저의 게시물인지 확인
+     public int checkUserPostExist(int userIdx,int postIdx) throws BaseException{
+     try{
+     return postDao.checkUserPostExist(userIdx,postIdx);
+     } catch (Exception exception){
+     throw new BaseException(DATABASE_ERROR);
+     }
+     }
+
+     // 이메일 확인
+     public int checkEmailExist(String email) throws BaseException{
+     try{
+     return postDao.checkEmailExist(email);
+     } catch (Exception exception){
+     throw new BaseException(DATABASE_ERROR);
+     }
+     }
+
+     // 이메일 확인
+     public String checkUserStatus(String email) throws BaseException{
+     try{
+     return postDao.checkUserStatus(email);
+     } catch (Exception exception){
+     throw new BaseException(DATABASE_ERROR);
+     }
+     }
+     **/
 
 
 }
