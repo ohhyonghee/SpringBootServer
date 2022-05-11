@@ -86,6 +86,19 @@ public class PostController {
         }
     }
 
+    @ResponseBody
+    @PatchMapping("/{postIdx}/status") //Patch Mapping , pathVariable로 postIdx를 받아줌 아래에 함수의 매개변수로 pathVariable 사용가능 , 같은 Patch 이므로 pathvariable로 하나 더 받아줌
+    public BaseResponse<String> deletePost(@PathVariable ("postIdx") int postIdx){//postidx를 패스배리어블로 받고 그것을 postIdx에 넣음
+        //데이터는 json 형태롤 보내야함..
+        try{
+            String deletePostRes="complete delete";
+            postService.deletePost(postIdx);  // postIdx로 delete한다. 그런데, 나중에 user인지 확인해야하지않나? jwt로..
+            return new BaseResponse<>(deletePostRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
 
 
 

@@ -141,6 +141,15 @@ public class PostDao {
         return this.jdbcTemplate.update(updatePostQuery,
                 updatePostParam);  // update는 성공한 row의 갯수를 반환한다
     }
+    public int deletePost(int postIdx){
+        String deletePostQuery = "UPDATE Post SET status=0 WHERE postIdx=?"; // ? 뒤의 값들은 입력받아야하는 변수들이고, 그것들은 Param으로 넘겨줄것이다.
+        //그런데 왜 위에서는 VALUE 로 받아주고 여기서는 그대로?
+
+        Object [] deletePostParam =new Object[] {postIdx};// param 으로 받아서 넘겨줄것이다. 값이 하나일때도 배열로 넘겨주는게 좋은가?
+        return this.jdbcTemplate.update(deletePostQuery,
+                deletePostParam);  // update는 성공한 row의 갯수를 반환한다
+    }
+
 
 
 

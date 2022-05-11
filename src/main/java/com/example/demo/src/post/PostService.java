@@ -74,6 +74,24 @@ public class PostService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+
+    public void deletePost(int postIdx) throws BaseException {
+        if(postProvider.checkPostExist(postIdx) ==0){    //validation 처리. 의미적 validation도 provider을 통해서 처리해야한다
+            throw new BaseException(POSTS_EMPTY_POST_ID);
+        }
+        try{
+            int result=postDao.deletePost(postIdx);  // Dao에서 잘 실행되면 1 아니면 0  쿼리문에서 사용하는 이름의 함수로 Dao 에서 정의해주면 좋다.
+            if(result==0){
+                throw new BaseException(DELETE_FAIL_POST);
+            }
+
+        } catch(Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 /**
     //게시글 작성
     public PostPostRes createPost(int userIdx, PostPostReq postPostReq) throws BaseException {
