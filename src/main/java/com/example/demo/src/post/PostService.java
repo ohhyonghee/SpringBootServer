@@ -35,11 +35,12 @@ public class PostService {
     }
     public PostPostRes createPost(int userIdx,PostPostReq postPostReq) throws BaseException {
         try{
-            int postIdx=postDao.insertPost(userIdx,postPostReq.getContent());
-            for (int i=0;i<postPostReq.getPostImgUrl().size();i++){
+            int postIdx=postDao.insertPost(userIdx,postPostReq.getContent());  //userIdx 를 따로 넘겨줘서 Dao에서 추가 쉽게
+            for (int i=0;i<postPostReq.getPostImgUrl().size();i++){  // 한 게시물에 여러 사진을 넣어야하므로, 리스트로 받은 url들을 반복문을 통해서 호출
+                // insertPostImg 함수를 따로 정의해서 여러번 넣어줘야한다.
                 postDao.insertPostImg(postIdx,postPostReq.getPostImgUrl().get(i));
             }
-            return new PostPostRes(postIdx);
+            return new PostPostRes(postIdx);  // 방금 생긴 postIdx 를 반환해준다.
         } catch(Exception exception){
             System.out.println(exception);
             throw new BaseException(DATABASE_ERROR);

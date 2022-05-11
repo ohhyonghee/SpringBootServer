@@ -58,12 +58,12 @@ public class PostController {
         //데이터는 json 형태롤 보내야함..
         try{
             if(postPostReq.getContent().length()>450){
-                return new BaseResponse<>(POST_POST_INVALID_CONTENT);
+                return new BaseResponse<>(POST_POST_INVALID_CONTENT);   //validation 처리.
             }
             if(postPostReq.getPostImgUrl().size()<1){
-                return new BaseResponse<>(POST_POST_EMPTY_IMGURL);
+                return new BaseResponse<>(POST_POST_EMPTY_IMGURL);     //validation 처리 .
             }
-            PostPostRes postPostRes=postService.createPost(postPostReq.getUserIdx(),postPostReq);
+            PostPostRes postPostRes=postService.createPost(postPostReq.getUserIdx(),postPostReq);  //userIdx를 따로 받아주는이유는 Dao에서 편하게 넣어주기 위해서 getter 사용
             return new BaseResponse<>(postPostRes);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
