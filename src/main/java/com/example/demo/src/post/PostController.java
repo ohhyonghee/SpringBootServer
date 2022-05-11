@@ -49,10 +49,28 @@ public class PostController {
             List<GetPostRes> getPost=postProvider.retrievePost(userIdx);
             return new BaseResponse<>(getPost);
         } catch (BaseException exception){
-            System.out.println(exception);
             return new BaseResponse<>(exception.getStatus());
         }
     }
+    @ResponseBody
+    @PostMapping("")
+    public BaseResponse<PostPostRes> createPost(@RequestBody PostPostReq postPostReq){
+        try{
+            if(postPostReq.getContent().length()>450){
+                return new BaseResponse<>(POST_POST_INVALID_CONTENT);
+            }
+            if(postPostReq.getPostImgUrl().size()<1){
+                return new BaseResponse<>(POST_POST_EMPTY_IMGURL);
+            }
+            PostPostRes postPostRes=postService.createPost(postPostReq.getUserIdx(),postPostReq);
+            return new BaseResponse<>(postPostRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+
+
 /**
     @ResponseBody
     @PostMapping("")

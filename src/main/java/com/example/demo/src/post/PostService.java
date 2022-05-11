@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.example.demo.config.BaseResponseStatus.*;
 
 // Service Create, Update, Delete 의 로직 처리
@@ -30,6 +32,18 @@ public class PostService {
         this.postProvider = postProvider;
         this.jwtService = jwtService;
 
+    }
+    public PostPostRes createPost(int userIdx,PostPostReq postPostReq) throws BaseException {
+        try{
+            int postIdx=postDao.insertPost(userIdx,postPostReq.getContent());
+            for (int i=0;i<postPostReq.getPostImgUrl().size();i++){
+                postDao.insertPostImg(postIdx,postPostReq.getPostImgUrl().get(i));
+            }
+            return new PostPostRes(postIdx);
+        } catch(Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 /**
     //게시글 작성

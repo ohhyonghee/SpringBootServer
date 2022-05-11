@@ -54,6 +54,8 @@ com/example/demo/src/user/HelloWorld.java
  Java
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
+com/example/demo/src/post/model/PostImgUrlReq.java
+ com.example.demo.src.post.model.PostImgUrlReq
 com/example/demo/src/post/model/PostLoginReq.java
  com.example.demo.src.post.model.PostLoginReq
 com/example/demo/src/user/model/GetUserRes.java
@@ -70,8 +72,6 @@ com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
 com/example/demo/src/post/model/PatchPostReq.java
  com.example.demo.src.post.model.PatchPostReq
-com/example/demo/src/post/model/PostImgsUrlReq.java
- com.example.demo.src.post.model.PostImgsUrlReq
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
 com/example/demo/src/user/model/GetUserPostRes.java

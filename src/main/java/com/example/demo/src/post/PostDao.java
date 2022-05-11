@@ -21,11 +21,6 @@ public class PostDao {
     public void setDataSource(DataSource dataSource){
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-
-
-
-
-
     // 유저 확인
     public int checkUserExist(int userIdx){
         String checkUserExistQuery = "select exists(select userIdx from User where userIdx = ?)";
@@ -35,6 +30,7 @@ public class PostDao {
                 checkUserExistParams);
 
     }
+
 /**
     // 게시글 확인
     public int checkPostExist(int postIdx){
@@ -112,6 +108,26 @@ public class PostDao {
 
 
     }
+    public int insertPost(int userIdx, String content){
+        String insertPostQuery = "INSERT INTO Post(userIdx,content) VALUE(?,?)";  //쿼리문 공부하기
+        Object []insertPostParam= new Object[] {userIdx,content};  // ? , ? 에 들어갈 무언가들을 Param으로 받는중
+        this.jdbcTemplate.update(insertPostQuery,
+                insertPostParam);//INSERT 문 사용할떄는 return이 아니라 UPDATE 를 해줘야함    this.jdbcTemplate 는 쿼리문을 그 뒤에 매개변수와 함께 실행
+        String lastInsertIdxQuery="select last_insert_id";   // 자동으로 가장 마지막에 들어간 idx 값 리턴
+        return this.jdbcTemplate.queryForObject(lastInsertIdxQuery,int.class); //jdbc로 쿼리 실행 후 방금들어간 idx를 가져와서 리턴해준다
+    }
+
+    public int insertPostImg(int postIdx, PostImgUrlReq postImgUrlReq){   //for 문을 통해서 게시물의 여러 사진인, postImgUrl들이 순서대로 대입
+        String insertPostImgQuery = "INSERT INTO PostImgUrl(postIdx,imgUrl) VALUE(?,?)"; //데이터 베이스에 입력해야하는 값들을 매개변수로, value 뒤의 값들은 입력받을 값들이다
+        Object []insertPostImgParam= new Object[] {postIdx,postImgUrlReq.getImgUrl()};
+        this.jdbcTemplate.update(insertPostImgQuery,
+                insertPostImgParam);
+        String lastInsertIdxQuery="select last_insert_id";
+        return this.jdbcTemplate.queryForObject(lastInsertIdxQuery,int.class);
+    }
+
+
+
 /**
     // 회원 확인
     public String checkUserStatus(String email){
