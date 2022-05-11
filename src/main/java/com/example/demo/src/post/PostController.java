@@ -54,7 +54,8 @@ public class PostController {
     }
     @ResponseBody
     @PostMapping("")
-    public BaseResponse<PostPostRes> createPost(@RequestBody PostPostReq postPostReq){
+    public BaseResponse<PostPostRes> createPost(@RequestBody PostPostReq postPostReq){//Post 메소드이고, pathvariable은 없으며 body에서 요청을 받는다.
+        //데이터는 json 형태롤 보내야함..
         try{
             if(postPostReq.getContent().length()>450){
                 return new BaseResponse<>(POST_POST_INVALID_CONTENT);

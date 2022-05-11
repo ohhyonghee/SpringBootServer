@@ -113,7 +113,7 @@ public class PostDao {
         Object []insertPostParam= new Object[] {userIdx,content};  // ? , ? 에 들어갈 무언가들을 Param으로 받는중
         this.jdbcTemplate.update(insertPostQuery,
                 insertPostParam);//INSERT 문 사용할떄는 return이 아니라 UPDATE 를 해줘야함    this.jdbcTemplate 는 쿼리문을 그 뒤에 매개변수와 함께 실행
-        String lastInsertIdxQuery="select last_insert_id";   // 자동으로 가장 마지막에 들어간 idx 값 리턴
+        String lastInsertIdxQuery="select last_insert_id()";   // 자동으로 가장 마지막에 들어간 idx 값 리턴
         return this.jdbcTemplate.queryForObject(lastInsertIdxQuery,int.class); //jdbc로 쿼리 실행 후 방금들어간 idx를 가져와서 리턴해준다
     }
 
@@ -122,7 +122,7 @@ public class PostDao {
         Object []insertPostImgParam= new Object[] {postIdx,postImgUrlReq.getImgUrl()};
         this.jdbcTemplate.update(insertPostImgQuery,
                 insertPostImgParam);
-        String lastInsertIdxQuery="select last_insert_id";
+        String lastInsertIdxQuery="select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdxQuery,int.class);
     }
 
