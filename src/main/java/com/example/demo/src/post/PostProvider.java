@@ -43,6 +43,15 @@ public class PostProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    public int checkPostExist(int postIdx) throws BaseException{   //Dao 에 있는 함수를 호출해서 validation 검증 . 근데 왜 이렇게 두단계로 나눠서하지?
+        // 그리고 전에 강의에서 말한듯, 의미적 validation이라서 service에서 검증해야할때도, 그 메소드는 provider을 통해서 가야한다.
+        try{
+            return postDao.checkPostExist(postIdx);
+        } catch (Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 /**
     // 게시물 확인
     public int checkPostExist(int postIdx) throws BaseException{

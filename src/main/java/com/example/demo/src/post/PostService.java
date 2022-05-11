@@ -46,6 +46,34 @@ public class PostService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+
+
+
+
+
+
+
+    public void modifyPost(int userIdx,int postIdx, PatchPostReq patchPostReq) throws BaseException {
+        if(postProvider.checkUserExist(userIdx) ==0){  //controller에서 생성한 객체의 메소드를 사용 먼저, 유저가 있는지  check
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        if(postProvider.checkPostExist(postIdx) ==0){    //validation 처리. 의미적 validation도 provider을 통해서 처리해야한다
+            throw new BaseException(POSTS_EMPTY_POST_ID);
+        }
+        try{
+            int result=postDao.updatePost(postIdx,patchPostReq.getContent());  // Dao에서 잘 실행되면 1 아니면 0
+            // userIdx는 Dao까지 갈 필요없고 update함수를 사용할것이므로 네이밍은 update
+
+            if(result==0){
+                throw new BaseException(MODIFY_FAIL_POST);
+            }
+
+        } catch(Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 /**
     //게시글 작성
     public PostPostRes createPost(int userIdx, PostPostReq postPostReq) throws BaseException {

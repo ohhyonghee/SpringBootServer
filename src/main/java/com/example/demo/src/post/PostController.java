@@ -70,6 +70,24 @@ public class PostController {
         }
     }
 
+    @ResponseBody
+    @PatchMapping("/{postIdx}") //Patch Mapping , pathVariable로 postIdx를 받아줌 아래에 함수의 매개변수로 pathVariable 사용가능
+    public BaseResponse<String> modifyPost(@PathVariable ("postIdx") int postIdx, @RequestBody PatchPostReq patchPostReq){//postidx를 패스배리어블로 받고 그것을 postIdx에 넣음 , 쿼리파라미터도 받음
+        //데이터는 json 형태롤 보내야함..
+        try{
+            if(patchPostReq.getContent().length()>450){
+                return new BaseResponse<>(POST_POST_INVALID_CONTENT);   //validation 처리.
+            }
+            String patchPostRes="complete modify";
+            postService.modifyPost(patchPostReq.getUserIdx(),postIdx,patchPostReq);  //userIdx를 따로 받아주는이유는 Dao에서 편하게 넣어주기 위해서 getter 사용
+            return new BaseResponse<>(patchPostRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+
+
 
 
 /**

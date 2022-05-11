@@ -28,8 +28,15 @@ public class PostDao {
         return this.jdbcTemplate.queryForObject(checkUserExistQuery,
                 int.class,
                 checkUserExistParams);
-
     }
+    public int checkPostExist(int postIdx){  //validation   :  post가 존재하는지 service에서 처리하기 위한 메소드는 dao 에서 정의
+        String checkPostExistQuery = "select exists(select postIdx from Post where postIdx = ?)";
+        int checkPostExistParams = postIdx;
+        return this.jdbcTemplate.queryForObject(checkPostExistQuery,
+                int.class,
+                checkPostExistParams);
+    }
+
 
 /**
     // 게시글 확인
@@ -124,6 +131,15 @@ public class PostDao {
                 insertPostImgParam);
         String lastInsertIdxQuery="select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdxQuery,int.class);
+    }
+
+    public int updatePost(int postIdx, String content){   // 객체를 받지않고 getter을 사용해서 바로 content 만 받아줌
+        String updatePostQuery = "UPDATE Post SET content=? WERHE postIdx=?"; // ? 뒤의 값들은 입력받아야하는 변수들이고, 그것들은 Param으로 넘겨줄것이다.
+        //그런데 왜 위에서는 VALUE 로 받아주고 여기서는 그대로?
+
+        Object [] updatePostParam = new Object[] {content,postIdx};// 새로 생성한 배열들을 param 으로 받아서 넘겨줄것이다.
+        return this.jdbcTemplate.update(updatePostQuery,
+                updatePostParam);  // update는 성공한 row의 갯수를 반환한다
     }
 
 

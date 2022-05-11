@@ -131,5 +131,6 @@ public class UserDao {
         int deleteUserByIdxParams = userIdx;  // 어떤 값을 삭제할지 저장하는 params , 함수의 매개변수로 받은값
 
         return this.jdbcTemplate.update(deleteUserByIdxQuery,deleteUserByIdxParams); // jdbcTemplate 템플릿 참고  update는 insert , delete, modify 가능. 매개변수에 따라 다르다.
+        //update 메소드는 성공한 row 의 갯수를 반환한다
     }
 }
