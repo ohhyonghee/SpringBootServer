@@ -134,7 +134,7 @@ public class PostDao {
     }
 
     public int updatePost(int postIdx, String content){   // 객체를 받지않고 getter을 사용해서 바로 content 만 받아줌
-        String updatePostQuery = "UPDATE Post SET content=? WERHE postIdx=?"; // ? 뒤의 값들은 입력받아야하는 변수들이고, 그것들은 Param으로 넘겨줄것이다.
+        String updatePostQuery = "UPDATE Post SET content=? WHERE postIdx=?"; // ? 뒤의 값들은 입력받아야하는 변수들이고, 그것들은 Param으로 넘겨줄것이다.
         //그런데 왜 위에서는 VALUE 로 받아주고 여기서는 그대로?
 
         Object [] updatePostParam = new Object[] {content,postIdx};// 새로 생성한 배열들을 param 으로 받아서 넘겨줄것이다.
