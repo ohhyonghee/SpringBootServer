@@ -6,6 +6,9 @@ import com.example.demo.config.BaseException;
 import com.example.demo.src.post.model.GetPostRes;
 import com.example.demo.src.post.model.GetPostRes;
 import com.example.demo.src.post.*;
+import com.example.demo.src.user.model.GetUserFeedRes;
+import com.example.demo.src.user.model.GetUserInfoRes;
+import com.example.demo.src.user.model.GetUserPostRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,12 +35,9 @@ public class PostProvider {
         this.jwtService = jwtService;
     }
 
-
-
-    // 유저 확인
     public int checkUserExist(int userIdx) throws BaseException{
         try{
-            return postDao.checkUserExist(userIdx);
+            return postDao.checkUserExist(userIdx);  //유저가 있는지 Dao 함수를 가져옴. 왜이렇게 이중으로??
         } catch (Exception exception){
             System.out.println(exception);
             throw new BaseException(DATABASE_ERROR);
@@ -52,6 +52,32 @@ public class PostProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    public List<GetPostRes> retrievePost(int userIdx) throws BaseException{   // userIdx 를 받아서 GetPostRes 리스트들을 넘겨주는 함수
+
+        if(checkUserExist(userIdx)==0){ // 의미적 validation. 유저가 존재하지않으면 오류코드. 이 함수는 provider에 있다.
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        try{
+            List<GetPostRes> getPostRes = postDao.selectPost(userIdx); // 게시물 리스트를 받아오는 객체
+            return getPostRes;
+        }
+        catch (Exception exception) {
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
+/**
+ *     // 유저 확인
+ * public int checkUserExist(int userIdx) throws BaseException{
+ *         try{
+ *             return postDao.checkUserExist(userIdx);
+ *         } catch (Exception exception){
+ *             System.out.println(exception);
+ *             throw new BaseException(DATABASE_ERROR);
+ *         }
+ *     }
     //게시물 리스트 조회
     public List<GetPostRes> retrievePost(int userIdx) throws BaseException {
 
@@ -69,8 +95,6 @@ public class PostProvider {
            throw new BaseException(DATABASE_ERROR);
         }
     }
-
-    /**
      // 게시물 확인
      public int checkPostExist(int postIdx) throws BaseException{
      try{

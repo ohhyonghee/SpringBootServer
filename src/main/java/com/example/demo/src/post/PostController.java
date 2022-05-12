@@ -3,6 +3,7 @@ package com.example.demo.src.post;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.post.model.*;
+import com.example.demo.src.user.model.GetUserFeedRes;
 import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
@@ -38,18 +39,15 @@ public class PostController {
         this.jwtService = jwtService;
     }
 
-
-
-
     @ResponseBody
-    @GetMapping("")
-    public BaseResponse<List<GetPostRes>> getPost(@RequestParam int userIdx){
+    @GetMapping("") // (GET) 127.0.0.1:9000/users pathvariable 에 받아줬으면 uri 에도 명시해주자
+    public BaseResponse<List<GetPostRes>> getPost(@RequestParam int userIdx) {  //getPost함수는 userIdx를 통해서 GetPostRes 리스트들을 반환 매개변수는 쿼리파라미터로 받는다
         try{
-
-            List<GetPostRes> getPost=postProvider.retrievePost(userIdx);
-            return new BaseResponse<>(getPost);
-        } catch (BaseException exception){
-            return new BaseResponse<>(exception.getStatus());
+            List<GetPostRes> getPostRes = postProvider.retrievePost(userIdx); //provider을 호출해서, getPostRes 리스트들을 받아온다.
+            return new BaseResponse<>(getPostRes);
+        } catch(BaseException exception){
+            System.out.println(exception);
+            return new BaseResponse<>((exception.getStatus()));
         }
     }
     @ResponseBody
@@ -106,6 +104,18 @@ public class PostController {
 
 
 /**
+ *
+ * @ResponseBody
+ *     @GetMapping("")
+ *     public BaseResponse<List<GetPostRes>> getPost(@RequestParam int userIdx){
+ *         try{
+ *
+ *             List<GetPostRes> getPost=postProvider.retrievePost(userIdx);
+ *             return new BaseResponse<>(getPost);
+ *         } catch (BaseException exception){
+ *             return new BaseResponse<>(exception.getStatus());
+ *         }
+ *     }
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostPostRes> createPost(@RequestBody PostPostReq postPostReq) {

@@ -37,7 +37,9 @@ public class PostDao {
                 checkPostExistParams);
     }
     // 게시글 리스트 조회
-    public List<GetPostRes> selectPost(int userIdx){
+    public List<GetPostRes> selectPost(int userIdx){   // 게시글의 내용과 게시글 이미지를 하나의 메소드로 한번에 가져오는 방법.
+        // 게시글은 평소처럼 가져오되 , 게시글 이미지들은 jdbcTemplate.query 의 첫부분은 쿼리 , 마지막은 파라미터다 . 그리고 중간부분은
+        // 생성할 객체이다. 이때 중간부분에서 다시 쿼리를 날려준다.
         String selectUserPostQuery = "\n" +
                 "        SELECT p.postIdx as postIdx,\n" +
                 "            u.userIdx as userIdx,\n" +
@@ -67,8 +69,8 @@ public class PostDao {
                 "        WHERE f.followerIdx = ? and p.status = 1\n" +
                 "        group by p.postIdx;\n" ;
         int selectUserPostParam = userIdx;
-        return this.jdbcTemplate.query(selectUserPostQuery,
-                (rs,rowNum) -> new GetPostRes(
+        return this.jdbcTemplate.query(selectUserPostQuery,  //처음에 보낼 쿼리  query : 리스트형식으로 보내지않고 객체이기때문.
+                (rs,rowNum) -> new GetPostRes(  // 반환할 모델 초반은 게시글에 대한 정보이다.
                         rs.getInt("postIdx"),
                         rs.getInt("userIdx"),
                         rs.getString("nickName"),
@@ -78,7 +80,8 @@ public class PostDao {
                         rs.getInt("commentCount"),
                         rs.getString("updatedAt"),
                         rs.getString("likeOrNot"),
-                         getPostImgRes = this.jdbcTemplate.query(
+                         getPostImgRes = this.jdbcTemplate.query(   //이미지 리스트도 넘겨줘야함. 다음 칼럼은 포스트 이미지 리스트임 쿼리문을 통해서
+                                 //가져와야함. 근데 왜 쿼리로만 하지? 쿼리 폴 오브젝트가 아니라
                                          "SELECT pi.postImgUrlIdx,\n"+
                                          "            pi.imgUrl\n" +
                                          "        FROM PostImgUrl as pi\n" +
@@ -86,7 +89,7 @@ public class PostDao {
                                          "        WHERE pi.status = 1 and p.postIdx = ?;\n",
                         (rk,rownum) -> new GetPostImgRes(
                                 rk.getInt("postImgUrlIdx"),
-                                rk.getString("imgUrl"))
+                                rk.getString("imgUrl"))    //여기서 왜 파라미터 안념겨주지
                                  ,rs.getInt("postIdx"))),selectUserPostParam);
     }
     public int insertPost(int userIdx, String content){
