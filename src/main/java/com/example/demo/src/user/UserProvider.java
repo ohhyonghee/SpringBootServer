@@ -34,17 +34,17 @@ public class UserProvider {
     }
 
 
-    public GetUserFeedRes retrieveUserFeed(int userIdxByJwt, int userIdx) throws BaseException{
-        Boolean isMyFeed=true;
-        if(checkUserExist(userIdx)==0){
+    public GetUserFeedRes retrieveUserFeed(int userIdxByJwt, int userIdx) throws BaseException{   //userIdx를 두개를 받음 하나는 userIdxByJwt로
+        Boolean isMyFeed=true;  //일단 내 피드인게 맞다고 가정 한 뒤
+        if(checkUserExist(userIdx)==0){ // 의미적 validation. 유저가 존재하지않으면 오류코드. 이 함수는 provider에 있다.
             throw new BaseException(USERS_EMPTY_USER_ID);
         }
         try{
-            if(userIdxByJwt!=userIdx)
+            if(userIdxByJwt!=userIdx) //  혹시 내피드가 아니라면 거짓으로
                 isMyFeed=false;
-            GetUserInfoRes getUserInfoRes = userDao.selectUserInfo(userIdx);
-            List<GetUserPostRes> getUserPostRes = userDao.selectUserPost(userIdx);
-            GetUserFeedRes getUserFeedRes = new GetUserFeedRes(isMyFeed,getUserInfoRes,getUserPostRes);
+            GetUserInfoRes getUserInfoRes = userDao.selectUserInfo(userIdx);  //유저의 정보를 받아오는 객체
+            List<GetUserPostRes> getUserPostRes = userDao.selectUserPost(userIdx); //유저의 게시물 리스트를 받아오는 객체
+            GetUserFeedRes getUserFeedRes = new GetUserFeedRes(isMyFeed,getUserInfoRes,getUserPostRes); //
             return getUserFeedRes;
         }
         catch (Exception exception) {

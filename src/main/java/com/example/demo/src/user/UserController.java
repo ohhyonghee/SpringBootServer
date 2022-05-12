@@ -45,9 +45,10 @@ public class UserController {
     //Query String
     @ResponseBody
     @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/users pathvariable 에 받아줬으면 uri 에도 명시해주자
-    public BaseResponse<GetUserFeedRes> getUserFeed(@PathVariable("userIdx")int userIdx) {
+    public BaseResponse<GetUserFeedRes> getUserFeed(@PathVariable("userIdx")int userIdx) {  //userIdx를 pathVariable로 받아주고, 그 값을 userIdx에 넣는다.
+        //반환은 GetUserFeedRes 입력은 userIdx를 pathvariable
         try{
-            GetUserFeedRes getUserFeedRes = userProvider.retrieveUserFeed(userIdx,userIdx);
+            GetUserFeedRes getUserFeedRes = userProvider.retrieveUserFeed(userIdx,userIdx); //provider에서 retrieve 호출 임시로 userIdx userIdx 를 준다.
             return new BaseResponse<>(getUserFeedRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));

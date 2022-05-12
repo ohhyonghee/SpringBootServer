@@ -19,7 +19,7 @@ public class UserDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public GetUserInfoRes selectUserInfo(int userIdx){
+    public GetUserInfoRes selectUserInfo(int userIdx){ //유저 정보를 받아오는 함수
         String selectUserInfoQuery = "SELECT u.userIdx as userIdx,\n" +
                 "            u.nickName as nickName,\n" +
                 "            u.name as name,\n" +
@@ -45,10 +45,10 @@ public class UserDao {
                         rs.getInt("followerCount"),
                         rs.getInt("followingCount"),
                         rs.getInt("postCount")
-                ),selectUserInfoParam);
+                ),selectUserInfoParam);   // 쿼리는 아직 실행이 안된상태. jdbcTemplate 로 뒤의 매개변수를 통해 앞의 쿼리문을 실행시켜준다.queryForObject 는 아마 중간을 반환해주는것같다.
     }
 
-    public List<GetUserPostRes> selectUserPost(int userIdx){
+    public List<GetUserPostRes> selectUserPost(int userIdx){ //유저의 게시글들을 받아오는 함수
         String selectUserPostQuery ="\n"+
                         "        SELECT p.postIdx as postIdx,\n" +
                         "            pi.imgUrl as postImgUrl\n" +
@@ -64,7 +64,7 @@ public class UserDao {
                 (rs,rowNum) -> new GetUserPostRes(
                         rs.getInt("postIdx"),
                         rs.getString("postImgUrl")
-                ),selectUserPostParam);
+                ),selectUserPostParam); //중간값을 반환 마지막을 매개변수  첫번째것을 쿼리 실행
     }
 
     public GetUserRes getUserByEmail(String email){
