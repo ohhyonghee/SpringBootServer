@@ -33,7 +33,8 @@ public class UserDao {
                 "            left join (select userIdx, count(postIdx) as postCount from Post WHERE status = 1 group by userIdx) p on p.userIdx = u.userIdx\n" +
                 "            left join (select followerIdx, count(followIdx) as followerCount from Follow WHERE status = 1 group by followIdx) fc on fc.followerIdx = u.userIdx\n" +
                 "            left join (select followeeIdx, count(followIdx) as followingCount from Follow WHERE status = 1 group by followIdx) f on f.followeeIdx = u.userIdx\n" +
-                "        WHERE u.userIdx = ? and u.status = 1\n" ;
+                "        WHERE u.userIdx = ? and u.status = 1\n" +
+                "        group by userIdx;";
         int selectUserInfoParam=userIdx;  // ????
         return this.jdbcTemplate.queryForObject(selectUserInfoQuery,    // selectUserInfo에서 반환하는 값이 List이면 query  아니면 queryForObject
                 (rs,rowNum) -> new GetUserInfoRes(
@@ -57,7 +58,7 @@ public class UserDao {
                         "            join User as u on u.userIdx = p.userIdx\n" +
                         "        WHERE p.status = 1 and u.userIdx = ?\n" +
                         "        group by p.postIdx\n" +
-                        //"        HAVING min(pi.postImgUrlIdx)\n" +   ??????
+                        "        HAVING min(pi.postImgUrlIdx)\n" +
                         "        order by p.postIdx; " ;
         int selectUserPostParam=userIdx;  // ????
         return this.jdbcTemplate.query(selectUserPostQuery,    // selectUserInfo에서 반환하는 값이 List이면 query  아니면 queryForObject

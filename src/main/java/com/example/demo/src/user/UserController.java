@@ -51,6 +51,7 @@ public class UserController {
             GetUserFeedRes getUserFeedRes = userProvider.retrieveUserFeed(userIdx,userIdx); //provider에서 retrieve 호출 임시로 userIdx userIdx 를 준다.
             return new BaseResponse<>(getUserFeedRes);
         } catch(BaseException exception){
+            System.out.println(exception);
             return new BaseResponse<>((exception.getStatus()));
         }
     }
