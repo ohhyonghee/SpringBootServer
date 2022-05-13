@@ -38,7 +38,7 @@ public class AuthService {
         //새로 받은 비밀번호를 암호화 해줄것임 util/SHA256  암호화 알고리즘
         String encryptPwd;   // 이 비밀번호는 데이터 베이스에있는비밀번호
         try{
-            encryptPwd=new SHA256().encrypt(postLoginReq.getPwd());
+            encryptPwd=new SHA256().encrypt(postLoginReq.getPassWord());
         } catch(Exception exception) {
             System.out.println(exception);
             throw new BaseException(PASSWORD_ENCRYPTION_ERROR);

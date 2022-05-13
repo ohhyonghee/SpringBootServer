@@ -20,7 +20,7 @@ public class AuthDao {
     }
 
     public User getPwd(PostLoginReq postLoginReq){   // 바디값으로 받은 로그인요청객체에서 이메일을 받아서 유저들의 정보를 리스트로 리턴해주는 함수
-        String getPwdQuery = "SELECT userIdx, name nickName ,email, pwd FROM User WHERE email=?"; //이메일을 매개변수로 받아서 유저의 정보를 가져오는 쿼리
+        String getPwdQuery = "SELECT userIdx,name,nickName ,email, passWord FROM User WHERE email=?"; //이메일을 매개변수로 받아서 유저의 정보를 가져오는 쿼리
         String getPwdParam = postLoginReq.getEmail(); //바디에서 받은 로그인요청객체에서 이메일을 추출한다
         return this.jdbcTemplate.queryForObject(getPwdQuery,  //jdbc로 쿼리 실행
                 (rs,rowNum) -> new User(
@@ -28,7 +28,7 @@ public class AuthDao {
                         rs.getString("name"),
                         rs.getString("nickName"),
                         rs.getString("email"),
-                        rs.getString("pwd")
+                        rs.getString("passWord")
                 ),
                 getPwdParam);
     }

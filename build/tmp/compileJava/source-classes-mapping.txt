@@ -8,10 +8,12 @@ com/example/demo/src/user/model/PostUserReq.java
  com.example.demo.src.user.model.PostUserReq
 com/example/demo/config/Constant.java
  com.example.demo.config.Constant
-com/example/demo/src/post/model/PostPostReq.java
- com.example.demo.src.post.model.PostPostReq
+com/example/demo/src/auth/model/GetAutoLoginRes.java
+ com.example.demo.src.auth.model.GetAutoLoginRes
 com/example/demo/utils/ValidationRegex.java
  com.example.demo.utils.ValidationRegex
+com/example/demo/src/post/model/PostPostReq.java
+ com.example.demo.src.post.model.PostPostReq
 com/example/demo/src/post/model/GetPostRes.java
  com.example.demo.src.post.model.GetPostRes
 com/example/demo/src/post/PostProvider.java
@@ -28,14 +30,20 @@ com/example/demo/src/WebSecurityConfig.java
  com.example.demo.src.WebSecurityConfig
 com/example/demo/src/user/model/DeleteUserReq.java
  com.example.demo.src.user.model.DeleteUserReq
+com/example/demo/src/auth/AuthDao.java
+ com.example.demo.src.auth.AuthDao
 com/example/demo/src/test/TestController.java
  com.example.demo.src.test.TestController
 com/example/demo/src/post/PostService.java
  com.example.demo.src.post.PostService
 com/example/demo/src/user/model/PostLoginReq.java
  com.example.demo.src.user.model.PostLoginReq
+com/example/demo/src/auth/AuthService.java
+ com.example.demo.src.auth.AuthService
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
+com/example/demo/src/auth/model/PostLoginReq.java
+ com.example.demo.src.auth.model.PostLoginReq
 com/example/demo/src/post/PostDao.java
  com.example.demo.src.post.PostDao
 com/example/demo/src/user/model/PostUserRes.java
@@ -46,6 +54,8 @@ com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/src/post/model/GetPostImgRes.java
  com.example.demo.src.post.model.GetPostImgRes
+com/example/demo/src/auth/AuthController.java
+ com.example.demo.src.auth.AuthController
 com/example/demo/src/user/model/DeleteUserRes.java
  com.example.demo.src.user.model.DeleteUserRes
 com/example/demo/src/user/model/User.java
@@ -58,6 +68,8 @@ com/example/demo/src/post/model/PostImgUrlReq.java
  com.example.demo.src.post.model.PostImgUrlReq
 com/example/demo/src/post/model/PostLoginReq.java
  com.example.demo.src.post.model.PostLoginReq
+com/example/demo/src/auth/model/PostLoginRes.java
+ com.example.demo.src.auth.model.PostLoginRes
 com/example/demo/src/user/model/GetUserRes.java
  com.example.demo.src.user.model.GetUserRes
 com/example/demo/src/post/model/PostPostRes.java
@@ -70,9 +82,13 @@ com/example/demo/src/user/model/GetUserInfoRes.java
  com.example.demo.src.user.model.GetUserInfoRes
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
+com/example/demo/src/auth/model/User.java
+ com.example.demo.src.auth.model.User
 com/example/demo/src/post/model/PatchPostReq.java
  com.example.demo.src.post.model.PatchPostReq
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
+com/example/demo/src/auth/AuthProvider.java
+ com.example.demo.src.auth.AuthProvider
 com/example/demo/src/user/model/GetUserPostRes.java
  com.example.demo.src.user.model.GetUserPostRes

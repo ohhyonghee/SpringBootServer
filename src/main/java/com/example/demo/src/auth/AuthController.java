@@ -38,7 +38,7 @@ public class AuthController {
 
 
     @ResponseBody
-    @PostMapping("/logIn") //Post Mapping , uri에 logIn 도 넣어주기로 약속
+    @PostMapping("/login") //Post Mapping , uri에 logIn 도 넣어주기로 약속
     public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){//PostLoginReq를 쿼리파라미터 바디로 받는다
         //데이터는 json 형태롤 보내야함..
         try{
@@ -52,7 +52,7 @@ public class AuthController {
                 return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
             }
             //비밀번호 입력하지 않았을때
-            if(postLoginReq.getPwd()==null){ //입력받은 객체에서 이메일값을 가져왔는데 그것이 null 이면
+            if(postLoginReq.getPassWord()==null){ //입력받은 객체에서 이메일값을 가져왔는데 그것이 null 이면
                 return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
             }
             PostLoginRes postLoginRes = authService.logIn(postLoginReq);  //service 로 넘겨준다
