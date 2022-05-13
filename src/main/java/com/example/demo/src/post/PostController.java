@@ -2,6 +2,7 @@ package com.example.demo.src.post;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.post.model.*;
 import com.example.demo.src.user.model.GetUserFeedRes;
 import com.example.demo.src.user.model.PatchUserReq;
@@ -55,6 +56,14 @@ public class PostController {
     public BaseResponse<PostPostRes> createPost(@RequestBody PostPostReq postPostReq){//Post 메소드이고, pathvariable은 없으며 body에서 요청을 받는다.
         //데이터는 json 형태롤 보내야함..
         try{
+            // 클라이언트로부터 jwt를 발급받아서 이것을 이용
+            int userIdxByJwt = jwtService.getUserIdx();  //위에 정의한 객체 jwtService 에서 userIdx를 받아온다. 헤더에서 jwt 받아서 userIdx 추출
+            // postman 에서 헤더 부분에 key 는 X-ACCESS-TOKEN  value는 jwt를 입력해줘야한다. 만약 다른 유저거나, jwt 가 다르면 포스트 생성 안됨
+            if(postPostReq.getUserIdx()!=userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT); //
+            }
+
+
             if(postPostReq.getContent().length()>450){
                 return new BaseResponse<>(POST_POST_INVALID_CONTENT);   //validation 처리.
             }
